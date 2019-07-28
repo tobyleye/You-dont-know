@@ -30,7 +30,7 @@
       <!-- game-board--content ends here -->
 
     </div>
-    <transition name="showGameResult" mode="out-in">
+    <transition name="showGameResult">
       <game-result
         :score="percentageScore"
         v-if="showGameResult"
