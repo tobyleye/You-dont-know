@@ -53,6 +53,12 @@ export default {
   --title-spacing: 1.2px;
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 #app {
   font-family: var(--secondary-font);
   line-height: 1.2;
@@ -61,7 +67,9 @@ export default {
   overflow-x: hidden;
   position: relative;
   width: 100vw;
-  min-height: 100vh
+  height: 100%;
+  /* enable smooth scrolling in iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 ul {
@@ -80,7 +88,7 @@ button {
 }
 
 .page {
-  min-height: 100vh;
+  height: 100%;
   position: absolute;
   width: 100%;
   top: 0;
