@@ -32,8 +32,8 @@
 <script>
 import { generateMeme } from '@/utils'
 
-const PASS = '#96ceb4'
-const FAIL = '#ff8b94'
+const GREEN = '#96ceb4'
+const RED = '#ff8b94'
 
 export default {
   name: 'GameResult',
@@ -56,7 +56,7 @@ export default {
       return require('../../assets/' + generatedMeme)
     },
     theme () {
-      return this.percentScore < 50 ? FAIL : PASS
+      return this.percentScore < 50 ? RED : GREEN
     },
     loadingState () {
       return this.loading ? 'Starting...' : 'Restart'

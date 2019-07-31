@@ -6,7 +6,7 @@ export const generateURL = (categoryId) => {
 }
 
 export const generateMeme = (score) => {
-  const result = score < 50 ? 'fail' : 'pass'
+  const result = score < 50 ? 'dull' : 'smart'
   const memes = MEMES[result]
   const randomIndex = Math.floor(Math.random(memes.length) * memes.length)
   return `memes/${result}/${memes[randomIndex]}`
