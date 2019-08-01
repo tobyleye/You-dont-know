@@ -55,14 +55,15 @@ export default {
     height: 100%;
 
     circle {
-      stroke-width: 3px;
       fill: none;
 
       &:first-child {
         stroke: #f0f0f0;
+        stroke-width: 2px;
       }
 
       &:last-child {
+        stroke-width: 3px;
         stroke-linecap: round;
         stroke-dasharray: 176px;
         transition: .25s ease;

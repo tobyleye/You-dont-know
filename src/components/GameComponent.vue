@@ -41,6 +41,7 @@
 
 <script>
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 
 // components
 import GameResult from '@/components/sub-components/GameResult.vue'
@@ -75,9 +76,8 @@ export default {
   },
 
   computed: {
-    questions () {
-      return this.$store.getters.questions
-    },
+    ...mapGetters(['questions']),
+
     currentQuestion () {
       const q = this.questions[this.currentQuestionIndex]
       q.options = _.shuffle([...q.incorrect_answers, q.correct_answer])
@@ -118,9 +118,10 @@ export default {
     startTimer (delay = 0) {
       setTimeout(() => {
         interval = setInterval(() => {
-          if (this.timeLeft > 0) {
-            this.timeLeft--
-          } else {
+          this.timeLeft--
+          // watch for timeup on each interval instead of using vue watchers
+          // using any of the option is valid.
+          if (this.timeLeft === 0) {
             this.clearTimer()
             this.showGameResult = true
           }
@@ -133,7 +134,7 @@ export default {
     },
 
     selectAnswer (evt) {
-      // pause timer here
+      // pause timer
       this.pauseTimer()
 
       this.answerSelected = true
@@ -149,6 +150,7 @@ export default {
         choice.classList.add('correct')
       }
 
+      // wait for a few sec before showing next question
       setTimeout(() => {
         if (this.done || this.retries === 0) {
           this.showGameResult = true

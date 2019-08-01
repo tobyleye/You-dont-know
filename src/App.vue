@@ -7,6 +7,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+// components
 import WelcomeComponent from '@/components/WelcomeComponent.vue'
 import SelectCategoryComponent from '@/components/SelectCategoryComponent.vue'
 import GameComponent from '@/components/GameComponent.vue'
@@ -21,13 +24,11 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['appTransition']),
+
     currentComponent () {
       const components = ['welcome-component', 'select-category-component', 'game-component']
       return components[this.$store.getters.currentStep]
-    },
-
-    appTransition () {
-      return this.$store.getters.appTransition
     }
   }
 }
@@ -66,7 +67,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   /* enable smooth scrolling in iOS */
   -webkit-overflow-scrolling: touch;
@@ -109,16 +110,6 @@ button {
 @keyframes fadein {
   from { opacity: 0 }
   to { opacity:  1 }
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: .3s ease;
 }
 
 .slideLeft-enter-active,
