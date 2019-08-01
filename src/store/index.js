@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 import axios from 'axios'
 
 // constants
-
 import { generateURL } from '@/utils'
 
 Vue.use(Vuex)

@@ -11,7 +11,9 @@ export const CATEGORIES = [
   { title: 'Animals', id: 27, color: '#a1887f', icon: '🐶' },
   { title: 'Cartoon & Animations', id: 32, color: '#ff8a65', icon: '👾' },
   { title: 'History', id: 23, color: '#90a4ae', icon: '📚' },
-  { title: 'General Knowledge', id: 9, color: '#7986cb', icon: '🌍' }
+  { title: 'General Knowledge', id: 9, color: '#7986cb', icon: '🔮' },
+  { title: 'Geography', id: 22, color: '#a4d7e1', icon: '🌍' },
+  { title: 'Mythology', id: 20, color: '#f0dab1', icon: '🐉' }
 ]
 
 export const MEMES = {
