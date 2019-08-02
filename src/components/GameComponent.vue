@@ -119,7 +119,7 @@ export default {
       setTimeout(() => {
         interval = setInterval(() => {
           this.timeLeft--
-          // watch for timeup on each interval instead of using vue watchers
+          // watch for timeup instead of using vue watchers
           // using any of the option is valid.
           if (this.timeLeft === 0) {
             this.clearTimer()
