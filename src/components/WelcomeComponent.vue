@@ -1,20 +1,23 @@
 <template>
-  <div class="w-page page">
-    <div class="welcome-text">
-      <h1 class="welcome-text--title">You Don't Know</h1>
-      <p class="welcome-text--sub-title">The trivia!</p>
+  <div class="page">
+    <div class="w-page page-container">
+      <div class="welcome-text">
+        <h1 class="welcome-text--title">You Don't Know</h1>
+        <p class="welcome-text--sub-title">The trivia!</p>
+      </div>
+      <ul class="welcome-actions">
+        <li>
+          <button @click="showHowToPlay = true">How to play?</button>
+        </li>
+        <li>
+          <button class="btn--lg" @click="startPlaying">Start Playing</button>
+        </li>
+      </ul>
+      <how-to-play
+        @close="showHowToPlay = false"
+        :class="{ show: showHowToPlay }"
+      />
     </div>
-    <ul class="welcome-actions">
-      <li>
-        <button @click="showHowToPlay = true">How to play?</button>
-      </li>
-      <li>
-        <button class="btn--lg" @click="startPlaying">Start Playing</button>
-      </li>
-    </ul>
-    <how-to-play
-      @close="showHowToPlay = false"
-      :class="{ show: showHowToPlay }"/>
   </div>
 </template>
 

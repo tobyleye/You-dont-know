@@ -1,41 +1,29 @@
 <template>
-  <div id="game" class="g-page page">
-    <div class="game-board">
-      <game-board-hud
-        :retries="retries"
-        :currentQuestion="currentQuestionIndex + 1"
-        :totalQuestions="questions.length"/>
-
-      <div class="game-board--content">
-        <game-board-timer :timeLeft="timeLeft"/>
-
-        <div class="game-board--question">
-          <span class="category">{{ currentQuestion.category }}</span>
-          <div :key="currentQuestionIndex">
-            <h2 class="title">{{ currentQuestion.question | decode }}</h2>
-            <ul class="options">
-              <li
-                v-for="(option, index) in currentQuestion.options"
-                :key="index">
-                  <button
-                    :data-option-index="index"
-                    :class="{ 'correct': showCorrectAnswer && currentQuestion.correct_answer_index === index }"
-                    @click="selectAnswer" :disabled="answerSelected">{{ option | decode }}
+  <div id="game" class="page">
+    <div class="g-page page-container">
+      <div class="game-board">
+        <game-board-hud :retries="retries" :currentQuestion="currentQuestionIndex + 1" :totalQuestions="questions.length" />
+        <div class="game-board--content">
+          <game-board-timer :timeLeft="timeLeft" />
+          <div class="game-board--question">
+            <span class="category">{{ currentQuestion.category }}</span>
+            <div :key="currentQuestionIndex">
+              <h2 class="title">{{ currentQuestion.question | decode }}</h2>
+              <ul class="options">
+                <li v-for="(option, index) in currentQuestion.options" :key="index">
+                  <button :data-option-index="index" :class="{ 'correct': showCorrectAnswer && currentQuestion.correct_answer_index === index }" @click="selectAnswer" :disabled="answerSelected">{{ option | decode }}
                   </button>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+        <!-- game-board--content ends here -->
       </div>
-      <!-- game-board--content ends here -->
-
+      <transition name="showGameResult">
+        <game-result :score="percentageScore" v-if="showGameResult" @on-restart-game="restartGame" />
+      </transition>
     </div>
-    <transition name="showGameResult">
-      <game-result
-        :score="percentageScore"
-        v-if="showGameResult"
-        @on-restart-game="restartGame"/>
-    </transition>
   </div>
 </template>
 
@@ -130,7 +118,7 @@ export default {
     },
 
     pauseTimer () {
-      this.clearTimer()
+      clearInterval(interval)
     },
 
     selectAnswer (evt) {
@@ -141,7 +129,8 @@ export default {
       const choice = evt.target
       choice.classList.add('selected')
 
-      if (choice.dataset.optionIndex != this.currentQuestion.correct_answer_index) {
+      const choiceIndex = parseInt(choice.dataset.optionIndex)
+      if (choiceIndex !== this.currentQuestion.correct_answer_index) {
         choice.classList.add('wrong')
         this.retries--
         this.showAnswer()
@@ -152,7 +141,11 @@ export default {
 
       // wait for a few sec before showing next question
       setTimeout(() => {
-        if (this.done || this.retries === 0) {
+        // true when all questions have been answered
+        // or when life is used up. false else.
+        const gameOver = this.done || this.retries === 0
+
+        if (gameOver) {
           this.showGameResult = true
           this.clearTimer()
         } else {

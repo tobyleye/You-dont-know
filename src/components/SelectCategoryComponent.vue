@@ -1,39 +1,43 @@
 <template>
-  <div id="select-category" class="sc-page page">
-    <header class="sc-header">
-      <button
-        class="sc-header--back"
-        @click="goBack"
-        :disabled="loading">&times;
-      </button>
-      <h3 class="sc-header--title">Select Category</h3>
-    </header>
-    <section>
-      <div class="instruction">
-        <h2>Hello Deer!</h2>
-        <p>Select a category to play.</p>
-      </div>
-      <ul class="categories">
-        <li
-          v-for="category in categories"
-          :key="category.id"
-          >
-            <category-card
-              :selected="selectedCategoryId === category.id"
-              :category="category"
-              @on-select-category="selectCategory"
-            />
-        </li>
-      </ul>
-      <button
-        v-show="categorySelected"
-        class="next"
-        @click="start"
-        :disabled="loading"
+  <div id="select-category" class="page">
+    <div class="sc-page page-container">
+      <header class="sc-header">
+        <button
+          class="sc-header--back"
+          @click="goBack"
+          :disabled="loading"
         >
-          {{ loadingState }}
-      </button>
-    </section>
+          &times;
+        </button>
+        <h3 class="sc-header--title">Select Category</h3>
+      </header>
+      <section>
+        <div class="instruction">
+          <h2>Hello Deer!</h2>
+          <p>Select a category to play.</p>
+        </div>
+        <ul class="categories">
+          <li
+            v-for="category in categories"
+            :key="category.id"
+            >
+              <category-card
+                :selected="selectedCategoryId === category.id"
+                :category="category"
+                @on-select-category="selectCategory"
+              />
+          </li>
+        </ul>
+        <button
+          v-show="categorySelected"
+          class="next"
+          @click="start"
+          :disabled="loading"
+          >
+            {{ loadingState }}
+        </button>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -60,7 +64,8 @@ export default {
 
   computed: {
     loadingState () {
-      return this.loading ? 'Starting...' : 'Start'
+      const [start, starting] = ['start!', 'starting...']
+      return this.loading ? starting : start
     }
   },
 
@@ -87,10 +92,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  /* select-category-header */
-
   .sc-page {
-    padding-top: 55px;
+    padding-top: 50px;
   }
 
   .sc-header {
@@ -100,6 +103,7 @@ export default {
     color: rgba(0,0,0,.7);
     background: #fafafa;
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
@@ -146,11 +150,13 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 1;
     width: 100%;
     display: block;
     height: 55px;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 15px;
+    font-weight: 800;
     background: var(--app-background);
     color: #fff;
   }

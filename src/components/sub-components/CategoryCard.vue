@@ -27,7 +27,8 @@ export default {
       }
     },
     cssClass () {
-      return this.selected ? 'category selected' : 'category'
+      const category = 'category'
+      return this.selected ? category + ' selected' : category
     }
   }
 }
@@ -60,6 +61,11 @@ export default {
   .category.selected {
     background: #fff !important;
     color: #444 !important;
+
+    .category--title {
+      transform: translate3d(0, -4px, 0);
+      transition: .55s ease;
+    }
   }
 
 </style>

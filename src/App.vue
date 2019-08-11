@@ -94,7 +94,12 @@ button {
   width: 100%;
   top: 0;
   left: 0;
-  animation: fadein 1.5s ease;
+  animation: fadein 1s ease;
+}
+
+.page-container {
+  height: 100%;
+  overflow: auto;
 }
 
 .btn--lg {
@@ -116,9 +121,9 @@ button {
 .slideLeft-leave-active,
 .slideRight-leave-active,
 .slideRight-enter-active  {
-  transition: .4s ease;
+  transition: .35s ease;
 }
-
+//
 .slideLeft-enter,
 .slideRight-leave-to {
   transform: translate3d(100%, 0, 0);
