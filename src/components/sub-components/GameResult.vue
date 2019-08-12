@@ -30,61 +30,61 @@
 </template>
 
 <script>
-import { generateMeme } from '@/utils'
+  import { generateMeme } from '@/utils'
 
-const GREEN = '#96ceb4'
-const RED = '#ff8b94'
+  const GREEN = '#96ceb4'
+  const RED = '#ff8b94'
 
-export default {
-  name: 'GameResult',
-  props: {
-    score: { type: Number, required: true }
-  },
-  data () {
-    return {
-      loading: false
-    }
-  },
-
-  created () {
-    this.percentScore = this.score
-  },
-
-  computed: {
-    meme () {
-      const generatedMeme = generateMeme(this.percentScore)
-      return require('../../assets/' + generatedMeme)
+  export default {
+    name: 'GameResult',
+    props: {
+      score: { type: Number, required: true }
     },
-    theme () {
-      return this.percentScore < 50 ? RED : GREEN
-    },
-    loadingState () {
-      return this.loading ? 'Starting...' : 'Restart'
-    }
-  },
-
-  methods: {
-    restartGame () {
-      this.loading = true
-      this.$store.dispatch('restartGame')
-        .then(() => {
-          this.$emit('on-restart-game')
-        })
-        .finally(() => {
-          this.loading = false
-        })
+    data () {
+      return {
+        loading: false
+      }
     },
 
-    generateMeme () {
-      const generatedMeme = generateMeme(this.percentScore)
-      return require('../../assets/' + generatedMeme)
+    created () {
+      this.percentScore = this.score
     },
 
-    selectNewCategory () {
-      this.$store.dispatch('previousStep')
+    computed: {
+      meme () {
+        const generatedMeme = generateMeme(this.percentScore)
+        return require('../../assets/' + generatedMeme)
+      },
+      theme () {
+        return this.percentScore < 50 ? RED : GREEN
+      },
+      loadingState () {
+        return this.loading ? 'Starting...' : 'Restart'
+      }
+    },
+
+    methods: {
+      restartGame () {
+        this.loading = true
+        this.$store.dispatch('restartGame')
+          .then(() => {
+            this.$emit('on-restart-game')
+          })
+          .finally(() => {
+            this.loading = false
+          })
+      },
+
+      generateMeme () {
+        const generatedMeme = generateMeme(this.percentScore)
+        return require('../../assets/' + generatedMeme)
+      },
+
+      selectNewCategory () {
+        this.$store.dispatch('previousStep')
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
