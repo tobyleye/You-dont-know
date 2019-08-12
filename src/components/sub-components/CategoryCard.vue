@@ -10,28 +10,28 @@
 </template>
 
 <script>
-  export default {
-    name: 'CategoryCard',
+export default {
+  name: 'CategoryCard',
 
-    props: {
-      category: { type: Object, required: true },
-      selected: { type: Boolean, default: false }
-    },
+  props: {
+    category: { type: Object, required: true },
+    selected: { type: Boolean, default: false }
+  },
 
-    computed: {
-      styleObj () {
-        const { color } = this.category
-        return {
-          backgroundColor: color,
-          borderColor: color
-        }
-      },
-      cssClass () {
-        const category = 'category'
-        return this.selected ? category + ' selected' : category
+  computed: {
+    styleObj () {
+      const { color } = this.category
+      return {
+        backgroundColor: color,
+        borderColor: color
       }
+    },
+    cssClass () {
+      const category = 'category'
+      return this.selected ? category + ' selected' : category
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

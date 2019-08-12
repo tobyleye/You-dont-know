@@ -12,9 +12,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'HowToPlay'
-  }
+export default {
+  name: 'HowToPlay'
+}
 </script>
 
 <style lang="scss" scoped>

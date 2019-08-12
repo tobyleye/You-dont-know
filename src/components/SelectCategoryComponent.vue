@@ -42,53 +42,53 @@
 </template>
 
 <script>
-  import { CATEGORIES } from '@/constants'
-  // components
-  import CategoryCard from '@/components/sub-components/CategoryCard.vue'
+import { CATEGORIES } from '@/constants'
+// components
+import CategoryCard from '@/components/sub-components/CategoryCard.vue'
 
-  export default {
-    name: 'SelectCategoryComponent',
+export default {
+  name: 'SelectCategoryComponent',
 
-    components: {
-      CategoryCard
+  components: {
+    CategoryCard
+  },
+
+  data () {
+    return {
+      categories: CATEGORIES,
+      categorySelected: false,
+      selectedCategoryId: null,
+      loading: false
+    }
+  },
+
+  computed: {
+    loadingState () {
+      const [start, starting] = ['start!', 'starting...']
+      return this.loading ? starting : start
+    }
+  },
+
+  methods: {
+    selectCategory (categoryId) {
+      if (this.loading) return
+      this.categorySelected = true
+      this.selectedCategoryId = categoryId
     },
 
-    data () {
-      return {
-        categories: CATEGORIES,
-        categorySelected: false,
-        selectedCategoryId: null,
-        loading: false
-      }
+    start () {
+      this.loading = true
+      this.$store.dispatch('startGame', this.selectedCategoryId)
+        .finally(() => {
+          this.loading = false
+        })
     },
 
-    computed: {
-      loadingState () {
-        const [start, starting] = ['start!', 'starting...']
-        return this.loading ? starting : start
-      }
-    },
-
-    methods: {
-      selectCategory (categoryId) {
-        if (this.loading) return
-        this.categorySelected = true
-        this.selectedCategoryId = categoryId
-      },
-
-      start () {
-        this.loading = true
-        this.$store.dispatch('startGame', this.selectedCategoryId)
-          .finally(() => {
-            this.loading = false
-          })
-      },
-
-      goBack () {
-        this.$store.dispatch('previousStep')
-      }
+    goBack () {
+      this.$store.dispatch('previousStep')
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

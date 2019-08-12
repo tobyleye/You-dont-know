@@ -22,28 +22,28 @@
 </template>
 
 <script>
-  // components
-  import HowToPlay from '@/components/sub-components/HowToPlay.vue'
+// components
+import HowToPlay from '@/components/sub-components/HowToPlay.vue'
 
-  export default {
-    name: 'WelcomeComponent',
+export default {
+  name: 'WelcomeComponent',
 
-    components: {
-      HowToPlay
-    },
+  components: {
+    HowToPlay
+  },
 
-    data () {
-      return {
-        showHowToPlay: false
-      }
-    },
+  data () {
+    return {
+      showHowToPlay: false
+    }
+  },
 
-    methods: {
-      startPlaying () {
-        this.$store.dispatch('nextStep')
-      }
+  methods: {
+    startPlaying () {
+      this.$store.dispatch('nextStep')
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

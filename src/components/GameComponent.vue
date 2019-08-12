@@ -28,153 +28,153 @@
 </template>
 
 <script>
-  import _ from 'lodash'
-  import { mapState } from 'vuex'
+import _ from 'lodash'
+import { mapState } from 'vuex'
 
-  // components
-  import GameResult from '@/components/sub-components/GameResult.vue'
-  import GameBoardHUD from '@/components/sub-components/GameBoardHUD.vue'
-  import GameBoardTimer from '@/components/sub-components/GameBoardTimer.vue'
+// components
+import GameResult from '@/components/sub-components/GameResult.vue'
+import GameBoardHUD from '@/components/sub-components/GameBoardHUD.vue'
+import GameBoardTimer from '@/components/sub-components/GameBoardTimer.vue'
 
-  let interval
+let interval
 
-  export default {
-    name: 'GameComponent',
+export default {
+  name: 'GameComponent',
 
-    components: {
-      GameResult,
-      GameBoardTimer,
-      'game-board-hud': GameBoardHUD
+  components: {
+    GameResult,
+    GameBoardTimer,
+    'game-board-hud': GameBoardHUD
+  },
+
+  data () {
+    return {
+      currentQuestionIndex: 0,
+      answerSelected: false,
+      showCorrectAnswer: false,
+      retries: 3,
+      showGameResult: false,
+      score: 0,
+      timeLeft: 60 // 60 seconds
+    }
+  },
+
+  created () {
+    this.startTimer(600)
+  },
+
+  computed: {
+    ...mapState(['questions']),
+
+    currentQuestion () {
+      const q = this.questions[this.currentQuestionIndex]
+      q.options = _.shuffle([...q.incorrect_answers, q.correct_answer])
+      q.correct_answer_index = q.options.indexOf(q.correct_answer)
+      return q
     },
-
-    data () {
-      return {
-        currentQuestionIndex: 0,
-        answerSelected: false,
-        showCorrectAnswer: false,
-        retries: 3,
-        showGameResult: false,
-        score: 0,
-        timeLeft: 60 // 60 seconds
-      }
+    done () {
+      return this.currentQuestionIndex === this.questions.length - 1
     },
+    percentageScore () {
+      return Math.round((this.score / this.questions.length) * 100)
+    }
+  },
 
-    created () {
+  filters: {
+    decode (string) {
+      const textArea = document.createElement('textarea')
+      textArea.innerHTML = string
+      return textArea.value
+    }
+  },
+
+  methods: {
+    restartGame () {
+      this.resetGameState()
       this.startTimer(600)
+      this.showGameResult = false
     },
 
-    computed: {
-      ...mapState(['questions']),
-
-      currentQuestion () {
-        const q = this.questions[this.currentQuestionIndex]
-        q.options = _.shuffle([...q.incorrect_answers, q.correct_answer])
-        q.correct_answer_index = q.options.indexOf(q.correct_answer)
-        return q
-      },
-      done () {
-        return this.currentQuestionIndex === this.questions.length - 1
-      },
-      percentageScore () {
-        return Math.round((this.score / this.questions.length) * 100)
-      }
+    resetGameState () {
+      this.currentQuestionIndex = 0
+      this.retries = 3
+      this.score = 0
+      this.timeLeft = 60
+      this.resetQuestionState()
     },
 
-    filters: {
-      decode (string) {
-        const textArea = document.createElement('textarea')
-        textArea.innerHTML = string
-        return textArea.value
-      }
-    },
-
-    methods: {
-      restartGame () {
-        this.resetGameState()
-        this.startTimer(600)
-        this.showGameResult = false
-      },
-
-      resetGameState () {
-        this.currentQuestionIndex = 0
-        this.retries = 3
-        this.score = 0
-        this.timeLeft = 60
-        this.resetQuestionState()
-      },
-
-      startTimer (delay = 0) {
-        setTimeout(() => {
-          interval = setInterval(() => {
-            this.timeLeft--
-            // watch for timeup instead of using vue watchers
-            // using any of the option is valid.
-            if (this.timeLeft === 0) {
-              this.clearTimer()
-              this.showGameResult = true
-            }
-          }, 1000)
-        }, delay)
-      },
-
-      pauseTimer () {
-        clearInterval(interval)
-      },
-
-      selectAnswer (evt) {
-        // pause timer
-        this.pauseTimer()
-
-        this.answerSelected = true
-        const choice = evt.target
-        choice.classList.add('selected')
-
-        const choiceIndex = parseInt(choice.dataset.optionIndex)
-        if (choiceIndex !== this.currentQuestion.correct_answer_index) {
-          choice.classList.add('wrong')
-          this.retries--
-          this.showAnswer()
-        } else {
-          this.score++
-          choice.classList.add('correct')
-        }
-
-        // wait for a few sec before showing next question
-        setTimeout(() => {
-          // true when all questions have been answered
-          // or when life is used up. false else.
-          const gameOver = this.done || this.retries === 0
-
-          if (gameOver) {
-            this.showGameResult = true
+    startTimer (delay = 0) {
+      setTimeout(() => {
+        interval = setInterval(() => {
+          this.timeLeft--
+          // watch for timeup instead of using vue watchers
+          // using any of the option is valid.
+          if (this.timeLeft === 0) {
             this.clearTimer()
-          } else {
-            this.startTimer()
-            this.nextQuestion()
+            this.showGameResult = true
           }
-        }, 1200)
-      },
+        }, 1000)
+      }, delay)
+    },
 
-      showAnswer () {
-        this.showCorrectAnswer = true
-      },
+    pauseTimer () {
+      clearInterval(interval)
+    },
 
-      nextQuestion () {
-        this.resetQuestionState()
-        this.currentQuestionIndex++
-      },
+    selectAnswer (evt) {
+      // pause timer
+      this.pauseTimer()
 
-      resetQuestionState () {
-        this.answerSelected = false
-        this.showCorrectAnswer = false
-      },
+      this.answerSelected = true
+      const choice = evt.target
+      choice.classList.add('selected')
 
-      clearTimer () {
-        clearInterval(interval)
-        interval = null
+      const choiceIndex = parseInt(choice.dataset.optionIndex)
+      if (choiceIndex !== this.currentQuestion.correct_answer_index) {
+        choice.classList.add('wrong')
+        this.retries--
+        this.showAnswer()
+      } else {
+        this.score++
+        choice.classList.add('correct')
       }
+
+      // wait for a few sec before showing next question
+      setTimeout(() => {
+        // true when all questions have been answered
+        // or when life is used up. false else.
+        const gameOver = this.done || this.retries === 0
+
+        if (gameOver) {
+          this.showGameResult = true
+          this.clearTimer()
+        } else {
+          this.startTimer()
+          this.nextQuestion()
+        }
+      }, 1200)
+    },
+
+    showAnswer () {
+      this.showCorrectAnswer = true
+    },
+
+    nextQuestion () {
+      this.resetQuestionState()
+      this.currentQuestionIndex++
+    },
+
+    resetQuestionState () {
+      this.answerSelected = false
+      this.showCorrectAnswer = false
+    },
+
+    clearTimer () {
+      clearInterval(interval)
+      interval = null
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

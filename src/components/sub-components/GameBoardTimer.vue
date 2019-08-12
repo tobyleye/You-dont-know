@@ -13,17 +13,17 @@
 </template>
 
 <script>
-  export default {
-    name: 'GameBoardTimer',
-    props: {
-      timeLeft: { type: Number, required: true }
-    },
-    computed: {
-      dashOffset () {
-        return `${(176 / 60) * (60 - this.timeLeft)}px`
-      }
+export default {
+  name: 'GameBoardTimer',
+  props: {
+    timeLeft: { type: Number, required: true }
+  },
+  computed: {
+    dashOffset () {
+      return `${(176 / 60) * (60 - this.timeLeft)}px`
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -6,14 +6,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'GameBoardHud',
-    props: {
-      totalQuestions: { type: Number, required: true },
-      currentQuestion: { type: Number, required: true },
-      retries: { type: Number, required: true }
-    }
+export default {
+  name: 'GameBoardHud',
+  props: {
+    totalQuestions: { type: Number, required: true },
+    currentQuestion: { type: Number, required: true },
+    retries: { type: Number, required: true }
   }
+}
 </script>
 
 <style lang="scss" scoped>
