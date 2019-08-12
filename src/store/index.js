@@ -14,6 +14,7 @@ export default new Vuex.Store({
     appTransition: 'slideLeft',
     categoryId: null
   },
+
   // mutating the state
   // mutations are always synchronous
   mutations: {
@@ -30,40 +31,38 @@ export default new Vuex.Store({
       state.appTransition = payload
     }
   },
+
   // commits the mutation, it's asynchronous
   actions: {
-    nextStep ({ commit }) {
+    nextStep ({ commit, state }) {
       commit('SET_TRANSITION', 'slideLeft')
-      const step = this.getters.currentStep + 1
+      const step = state.currentStep + 1
       commit('SET_STEP', step)
     },
 
-    previousStep ({ commit }) {
+    previousStep ({ commit, state }) {
       commit('SET_TRANSITION', 'slideRight')
-      const step = this.getters.currentStep - 1
+      const step = state.currentStep - 1
       commit('SET_STEP', step)
     },
 
     startGame ({ commit }, categoryId) {
+      // set categoryId
       commit('SET_CATEGORY', categoryId)
-
       return this.dispatch('fetchGameResources')
         .then(questions => {
           commit('SET_QUESTIONS', questions)
           this.dispatch('nextStep')
         })
     },
-
     restartGame ({ commit, dispatch }) {
       return dispatch('fetchGameResources')
         .then(questions => {
           commit('SET_QUESTIONS', questions)
         })
     },
-
-    fetchGameResources ({ commit, state }) {
+    fetchGameResources ({ state }) {
       const url = generateURL(state.categoryId)
-
       return new Promise((resolve, reject) => {
         axios.get(url)
           .then(({ data }) => {
@@ -74,11 +73,5 @@ export default new Vuex.Store({
           })
       })
     }
-  },
-  // showing things, not mutating state
-  getters: {
-    currentStep: (state) => state.currentStep,
-    questions: (state) => state.questions,
-    appTransition: (state) => state.appTransition
   }
 })

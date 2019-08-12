@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 // components
 import WelcomeComponent from '@/components/WelcomeComponent.vue'
@@ -24,11 +24,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['appTransition']),
+    ...mapState(['appTransition', 'currentStep']),
 
     currentComponent () {
       const components = ['welcome-component', 'select-category-component', 'game-component']
-      return components[this.$store.getters.currentStep]
+      return components[this.currentStep]
     }
   }
 }

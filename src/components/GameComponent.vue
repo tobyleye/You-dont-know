@@ -29,7 +29,7 @@
 
 <script>
 import _ from 'lodash'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 // components
 import GameResult from '@/components/sub-components/GameResult.vue'
@@ -64,7 +64,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['questions']),
+    ...mapState(['questions']),
 
     currentQuestion () {
       const q = this.questions[this.currentQuestionIndex]
