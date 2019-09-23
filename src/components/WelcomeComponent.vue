@@ -58,6 +58,8 @@ export default {
   }
 
   .welcome-text {
+    animation: slideup .3s ease;
+
     &--title {
       color: #fdf498;
       font-size: 3rem;
@@ -106,5 +108,14 @@ export default {
       }
     }
 
+  }
+
+  @keyframes slideup {
+    from { 
+      transform: translate3d(0, 100px, 0);
+      opacity: 0; }
+    to { 
+      transform: translate3d(0, 0, 0);
+      opacity: 1; }
   }
 </style>
