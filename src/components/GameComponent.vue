@@ -249,6 +249,19 @@ export default {
     }
   }
 
+  /* media queries */
+  @media screen and (max-width: 640px) {
+    .g-page {
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .game-board {
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+
   /* animations */
 
   @keyframes slideOptions {
