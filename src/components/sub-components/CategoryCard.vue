@@ -50,11 +50,17 @@ export default {
 
     &--title {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     &--icon {
       font-size: 24px;
+    }
+  }
+
+  @media screen and (min-width: 760px) {
+    .category--title {
+      font-size: 20px;
     }
   }
 
