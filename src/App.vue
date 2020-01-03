@@ -88,6 +88,23 @@ button {
   border: 0;
 }
 
+button.loading {
+  animation: fadeText 2s infinite;
+}
+
+@keyframes fadeText {
+  0% {
+    color: var(--initial-color);
+  }
+  50% {
+    color: transparent;
+  }
+
+  100% {
+    color: var(--initial-color);
+  }
+}
+
 .page {
   height: 100%;
   position: absolute;

@@ -30,7 +30,7 @@
         </ul>
         <button
           v-show="categorySelected"
-          class="next"
+          :class="['next', {loading: loading}]"
           @click="start"
           :disabled="loading"
           >
@@ -146,6 +146,10 @@ export default {
   }
 
   .next {
+    --initial-color: #fff;
+  }
+
+  .next {
     border: 0;
     position: fixed;
     bottom: 0;
@@ -158,7 +162,7 @@ export default {
     font-size: 15px;
     font-weight: 800;
     background: var(--app-background);
-    color: #fff;
+    color: var(--initial-color);
   }
 
 </style>
