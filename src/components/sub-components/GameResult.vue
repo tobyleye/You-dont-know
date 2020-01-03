@@ -11,8 +11,8 @@
       <ul class="result-actions">
         <li>
           <button
-            :style="{color: theme}"
-            class="restart btn--lg"
+            :style="{'--initial-color': theme}"
+            :class="['restart', 'btn--lg', {loading: loading}]"
             :disabled="loading"
             @click="restartGame">{{ loadingState }}
           </button>
@@ -136,6 +136,10 @@ export default {
     font-size: 1.5rem;
     color: #fff;
     font-weight: 800;
+  }
+
+  .restart {
+    color: var(--initial-color);
   }
 
   .restart {
